@@ -20,12 +20,23 @@ app.get('/', function (req, res) {
 });
 
 // request header parser microservice
+// first solution
 app.get('/api/whoami', (req, res) => {
   const myIp = req.headers["x-forwarded-for"];
   const myLanguage = req.headers["accept-language"];
   const mySoftware = req.headers["user-agent"];
 
   res.json({ ipaddress: myIp, language: myLanguage, software: mySoftware });
+});
+
+// request header parser microservice
+// second solution
+app.get('/api/whoami', function (req, res) {
+  res.json({
+    ipaddress: req.headers["x-forwarded-for"],
+    language: req.headers["accept-language"],
+    software: req.headers["user-agent"]
+  });
 });
 
 // listen for requests :)
